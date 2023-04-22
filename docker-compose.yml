@@ -10,10 +10,6 @@ services:
       - &app-src ./:/app
       - ./docker/local/config/fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./docker/local/config/fpm/php.ini:/usr/local/etc/php/php.ini
-    environment:
-      DATABASE_NAME: &db-name ${DATABASE_NAME:-app}
-      DATABASE_USERNAME: &db-username ${DATABASE_USERNAME:-root}
-      DATABASE_PASSWORD: &db-password ${DATABASE_PASSWORD:-root}
     depends_on:
       - postgres
 
@@ -21,9 +17,9 @@ services:
     image: postgres:15-alpine
     container_name: ${PROJECT_NAME}_db
     environment:
-      POSTGRES_DB: *db-name
-      POSTGRES_USER: *db-username
-      POSTGRES_PASSWORD: *db-password
+      POSTGRES_DB: ${DATABASE_NAME:-app}
+      POSTGRES_USER: ${DATABASE_USERNAME:-root}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-root}
     ports:
       - '9448:5432'
     volumes:
