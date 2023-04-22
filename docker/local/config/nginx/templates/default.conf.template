@@ -1,0 +1,46 @@
+server {
+    listen 80;
+
+    server_name _;
+
+    set $root_path /app/public;
+    root $root_path;
+    index index.php index.html;
+
+    location / {
+        # try to serve file directly, fallback to index.php
+        try_files $uri $uri/ /index.php$is_args$args;
+    }
+
+    # optionally disable falling back to PHP script for the asset directories;
+    # nginx will return a 404 error when files are not found instead of passing the
+    # request to Symfony (improves performance but Symfony's 404 page is not displayed)
+    # location /bundles {
+    #     try_files $uri =404;
+    # }
+
+    # pass the PHP scripts to FastCGI server from upstream phpfcgi
+    location ~* \.php$ {
+        #fastcgi_param  HTTPS $fastcgi_https if_not_empty;
+        #fastcgi_pass ${FASTCGI_PASS};
+        #fastcgi_index index.php;
+        #fastcgi_intercept_errors on;
+        #include fastcgi_params;
+        #fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        #fastcgi_ignore_client_abort off;
+        #fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+
+        fastcgi_pass ${FASTCGI_PASS};
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        internal;
+    }
+
+    # return 404 for all other php files not matching the front controller
+    # this prevents access to other php files you don't want to be accessible.
+    location ~ /\. {
+        return 404;
+    }
+}
