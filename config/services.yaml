@@ -4,12 +4,18 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    mailer_from: '%env(MAILER_FROM)%'
+    test_mailer_to: '%env(TEST_MAILER_TO)%'
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+        bind:
+            $symbolsFilePath: '%kernel.project_dir%/%env(SYMBOLS_FILE_PATH)%'
+            $jsonSerializer: '@json_serializer'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -22,3 +28,47 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+
+    yahoo_finance_http_client:
+        class: GuzzleHttp\Client
+        arguments:
+            $config:
+                base_uri: '%env(YAHOO_API_URI)%'
+                headers:
+                    X-RapidAPI-Key: '%env(YAHOO_API_KEY)%'
+                    X-RapidAPI-Host: '%env(YAHOO_API_HOST)%'
+
+
+    # Don't know why, but I could not use @Symfony\Component\Serializer\Encoder\JsonEncoder in json_serializer.
+    # Could solve it only by creating a separate service for encoder class
+    json_encoder:
+        class: 'Symfony\Component\Serializer\Encoder\JsonEncoder'
+    datetime_normalizer:
+        class: 'Symfony\Component\Serializer\Normalizer\DateTimeNormalizer'
+        arguments:
+            - { 'datetime_format': 'Y-m-d' }
+    json_serializer:
+        class: 'Symfony\Component\Serializer\Serializer'
+        arguments:
+            $normalizers: [
+                '@Symfony\Component\Serializer\Normalizer\ObjectNormalizer',
+                '@datetime_normalizer'
+            ]
+            $encoders: ['@json_encoder']
+
+    App\Components\Http\YahooFinance\YahooFinanceClient:
+        arguments:
+            $client: '@yahoo_finance_http_client'
+
+    App\Services\FinanceService\FinanceServiceInterface:
+        class: 'App\Services\FinanceService\YahooFinanceService'
+
+    App\Services\Notification\NotificationServiceInterface:
+        class: 'App\Services\Notification\NotificationService'
+        arguments:
+            $notifier: '@App\Services\Notification\Notifiers\EmailNotifier'
+
+    App\Repository\Interface\SymbolRepositoryInterface:
+        class: 'App\Repository\Implementation\Csv\SymbolRepository'
+
