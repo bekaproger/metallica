@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Tests\TestServices;
@@ -6,18 +7,16 @@ namespace App\Tests\TestServices;
 use App\Components\Http\YahooFinance\Response\HistoricalData\HistoricalData;
 use App\Components\Http\YahooFinance\Response\HistoricalData\Price;
 
-use DateTime;
-
 class TestYahooFinanceService
 {
-    public function createHistoricalPricesResponse(DateTime $startDate, int $pricesCount = 10): HistoricalData
+    public function createHistoricalPricesResponse(\DateTime $startDate, int $pricesCount = 10): HistoricalData
     {
         return new HistoricalData(
             prices: $this->createPrices($startDate, $pricesCount),
         );
     }
 
-    public function createPrices(DateTime $startDate, int $count = 2): array
+    public function createPrices(\DateTime $startDate, int $count = 2): array
     {
         $prices = [];
         $i = 0;
@@ -32,7 +31,7 @@ class TestYahooFinanceService
                 null,
             );
 
-            $i++;
+            ++$i;
         }
 
         return $prices;

@@ -30,7 +30,7 @@ class ValidSymbolValidator extends ConstraintValidator
         }
 
         $symbol = $this->symbolRepository->findBySymbol($value);
-        if ($symbol === null) {
+        if (null === $symbol) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }

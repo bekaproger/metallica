@@ -15,8 +15,8 @@ class SymbolRepository implements SymbolRepositoryInterface
     public function findBySymbol(string $symbol): ?Symbol
     {
         $symbol = strtoupper($symbol);
-        if (($fp = fopen($this->symbolsFilePath, "r")) !== FALSE) {
-            while (($line = fgetcsv($fp)) !== FALSE) {
+        if (($fp = fopen($this->symbolsFilePath, 'r')) !== false) {
+            while (($line = fgetcsv($fp)) !== false) {
                 if ($symbol === strtoupper($line[1])) {
                     return new Symbol($line[0], $symbol);
                 }

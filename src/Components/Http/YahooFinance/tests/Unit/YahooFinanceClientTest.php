@@ -3,14 +3,13 @@
 namespace App\Components\Http\YahooFinance\tests\Unit;
 
 use App\Components\Http\YahooFinance\Exceptions\YahooFinanceException;
-use App\Components\Http\YahooFinance\Requests\GetHistoricalData;
 use App\Components\Http\YahooFinance\YahooFinanceClient;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
 class YahooFinanceClientTest extends TestCase
@@ -42,9 +41,9 @@ class YahooFinanceClientTest extends TestCase
             'baser_uri' => self::URI,
             'headers' => [
                 'X-RapidAPI-Key' => self::API_KEY,
-                'X-RapidAPI-Host' => self::HOST
+                'X-RapidAPI-Host' => self::HOST,
             ],
-            'handler' => $handlerStack
+            'handler' => $handlerStack,
         ]);
     }
 
@@ -52,21 +51,21 @@ class YahooFinanceClientTest extends TestCase
     {
         $data = [
             'prices' => [[
-                "date" => 1653312600,
-			    "open" => 1.4500000476837158,
-			    "high" => 1.4700000286102295,
-                "low" => 1.399999976158142,
-			    "close" => 1.409999966621399,
-			    "volume" => 1702200,
-			    "adjclose" => 1.409999966621399
+                'date' => 1653312600,
+                'open' => 1.4500000476837158,
+                'high' => 1.4700000286102295,
+                'low' => 1.399999976158142,
+                'close' => 1.409999966621399,
+                'volume' => 1702200,
+                'adjclose' => 1.409999966621399,
             ]],
-            "isPending" => false,
-	        "firstTradeDate" =>  733674600,
-	        "id" => "",
-	        "timeZone" => [
-                "gmtOffset" => -14400
-	        ],
-	        "eventsData" => []
+            'isPending' => false,
+            'firstTradeDate' => 733674600,
+            'id' => '',
+            'timeZone' => [
+                'gmtOffset' => -14400,
+            ],
+            'eventsData' => [],
         ];
 
         $this->mockHandler->append(new Response(200,

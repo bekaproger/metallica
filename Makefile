@@ -10,7 +10,7 @@ stop: docker-stop
 
 lint: \
 	composer-validate \
-	php-cs-fixer
+	php-cs-fixer-fix
 
 docker-clean:
 	docker-compose down -v --remove-orphans
@@ -33,11 +33,8 @@ composer-update:
 composer-validate:
 	docker-compose run --rm fpm composer validate --no-check-all
 
-php-cs-fixer:
-	docker-compose run --rm fpm bin/php-cs-fixer fix --dry-run --diff --show-progress=dots --allow-risky=yes -v
-
 php-cs-fixer-fix:
-	docker-compose run --rm fpm bin/php-cs-fixer fix --verbose --diff --show-progress=dots --allow-risky=yes
+	docker-compose run --rm fpm vendor/bin/php-cs-fixer fix --verbose --diff --show-progress=dots --allow-risky=yes
 
 test:
 	docker-compose run --rm fpm bin/phpunit --testsuite Unit,Feature

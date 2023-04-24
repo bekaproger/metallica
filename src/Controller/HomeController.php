@@ -12,10 +12,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use DateTime;
 
 class HomeController extends AbstractController
 {
@@ -26,13 +24,13 @@ class HomeController extends AbstractController
     ) {
     }
 
-    #[Route(path: "/", name: 'home', methods: ["GET"])]
+    #[Route(path: '/', name: 'home', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('home.html.twig');
     }
 
-    #[Route(path: "/prices", name: 'home.get_prices', methods: ["POST"])]
+    #[Route(path: '/prices', name: 'home.get_prices', methods: ['POST'])]
     public function getPrices(Request $request, ValidatorInterface $validator, Serializer $jsonSerializer)
     {
         $entity = GetCompanyPrices::createFromRequest($request);
@@ -50,8 +48,8 @@ class HomeController extends AbstractController
 
         $dto = new GetCompanyPricesByDatesDto(
             symbol: $request->request->get('symbol'),
-            startDate: new DateTime($request->request->get('startDate')),
-            endDate: new DateTime($request->request->get('endDate')),
+            startDate: new \DateTime($request->request->get('startDate')),
+            endDate: new \DateTime($request->request->get('endDate')),
         );
 
         $prices = $this->financeService->getCompanyPricesByDates($dto);
@@ -67,7 +65,7 @@ class HomeController extends AbstractController
 
         return $this->render('prices.html.twig', [
             'prices' => $prices,
-            'json_prices' => $jsonSerializer->serialize($prices, 'json')
+            'json_prices' => $jsonSerializer->serialize($prices, 'json'),
         ]);
     }
 }

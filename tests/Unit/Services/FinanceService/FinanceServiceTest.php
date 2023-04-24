@@ -39,12 +39,12 @@ class FinanceServiceTest extends TestCase
         $res = $financeServiceMock->getCompanyPricesByDates(new GetCompanyPricesByDatesDto(
             $symbol,
             (clone $startDate)->add(new \DateInterval('P1D')),
-            (clone $startDate)->add(new \DateInterval('P' . $pricesCount - 2 . 'D'))
+            (clone $startDate)->add(new \DateInterval('P'.$pricesCount - 2 .'D'))
         ));
 
         $this->assertCount($pricesCount - 2, $res);
 
-        for ($i = 0; $i < $pricesCount - 2; $i++) {
+        for ($i = 0; $i < $pricesCount - 2; ++$i) {
             $testPrice = $prices->prices[$i + 1];
             $servicePrice = $res[$i];
             $this->assertEquals($testPrice->date, $servicePrice->getDate()->getTimestamp());

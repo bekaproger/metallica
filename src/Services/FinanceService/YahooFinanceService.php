@@ -5,7 +5,6 @@ namespace App\Services\FinanceService;
 use App\Components\Http\YahooFinance\YahooFinanceClient;
 use App\Dto\GetCompanyPricesByDatesDto;
 use App\Services\FinanceService\Entity\Price;
-use DateTime;
 
 class YahooFinanceService implements FinanceServiceInterface
 {
@@ -25,7 +24,7 @@ class YahooFinanceService implements FinanceServiceInterface
         foreach ($pricesRaw as $price) {
             if (($startDateTimeStamp <= $price->date) && ($price->date <= $endDateTimeStamp)) {
                 $prices[] = new Price(
-                    date: (new DateTime)->setTimestamp($price->date),
+                    date: (new \DateTime())->setTimestamp($price->date),
                     open: $price->open,
                     high: $price->high,
                     low: $price->low,

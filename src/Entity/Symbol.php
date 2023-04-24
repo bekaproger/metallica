@@ -10,17 +10,11 @@ class Symbol
     ) {
     }
 
-    /**
-     * @return string
-     */
     public function getCompanyName(): string
     {
         return $this->companyName;
     }
 
-    /**
-     * @param string $companyName
-     */
     public function setCompanyName(string $companyName): void
     {
         $this->companyName = $companyName;
