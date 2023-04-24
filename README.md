@@ -7,13 +7,11 @@ To set up the project run these commands below
 Then set required environment variables in ```.env.production``` file
 
 ```
-APP_ENV=production
+APP_ENV=local
 MAILER_FROM=
 MAILGUN_KEY=
 MAILGUN_DOMAIN=
 MAILER_DSN=mailgun+api://${MAILGUN_KEY}:${MAILGUN_DOMAIN}@default
-
-TEST_MAILER_TO=
 
 YAHOO_API_URI=
 YAHOO_API_KEY=
