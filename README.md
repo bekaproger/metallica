@@ -17,3 +17,5 @@ YAHOO_API_URI=
 YAHOO_API_KEY=
 YAHOO_API_HOST=
 ```
+
+Then visit http://localhost:8006
