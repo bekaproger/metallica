@@ -5,10 +5,10 @@ namespace App\Components\Http\YahooFinance\Requests;
 use App\Components\Http\YahooFinance\Exceptions\YahooFinanceException;
 use App\Components\Http\YahooFinance\Response\HistoricalData\HistoricalData;
 use Psr\Http\Client\ClientInterface;
-use Psr\Http\Client\ClientExceptionInterface;
 use App\Components\Http\YahooFinance\Response\HistoricalData\Price;
 use App\Components\Http\YahooFinance\Response\HistoricalData\Timezone;
 use GuzzleHttp\Psr7\Request;
+use Throwable;
 
 final class GetHistoricalData
 {
@@ -32,7 +32,7 @@ final class GetHistoricalData
             $array = json_decode($data->getBody()->getContents(), true, 512, JSON_THROW_ON_ERROR);
 
             return $this->mapResponse($array);
-        } catch (ClientExceptionInterface $exception) {
+        } catch (Throwable $exception) {
             throw new YahooFinanceException(
                 sprintf('Error on %s: %s', self::class, $exception->getMessage()),
                 $exception->getCode()
