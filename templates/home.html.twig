@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'company_symbol' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
+{% endblock %}
+
+{% block body %}
+    <form action="{{ path('home.get_prices') }}" method="post">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete-item') }}"/>
+        <div>
+            <label for="symbol-input">{{ 'form.company_symbol'|trans }}</label>
+            <input id="symbol-input" name="symbol">
+            {% for symbolErrorMessage in app.flashes('symbol') %}
+                <p>{{ symbolErrorMessage }}</p>
+            {% endfor %}
+        </div>
+        <div>
+            <label for="email">{{ 'form.email'|trans }}</label>
+            <input id="email" name="email">
+            {% for emailErrorMessage in app.flashes('email') %}
+                <p>{{ emailErrorMessage }}</p>
+            {% endfor %}
+        </div>
+        <div>
+            <label for="start-date">{{ 'form.start_date'|trans }}</label>
+            <input id="start-date" name="startDate">
+            {% for startDateErrorMessage in app.flashes('startDate') %}
+                <p>{{ startDateErrorMessage }}</p>
+            {% endfor %}
+        </div>
+        <div>
+            <label for="end-date">{{ 'form.end_date'|trans }}</label>
+            <input id="end-date" name="endDate">
+            {% for endDateErrorMessage in app.flashes('endDate') %}
+                <p>{{ endDateErrorMessage }}</p>
+            {% endfor %}
+        </div>
+        <input type="submit" value="send">
+    </form>
+{% endblock %}
+
+{% block bottom_ajavascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+    <script src="{{ asset('js/symbol_form.js') }}"></script>
+{% endblock %}
