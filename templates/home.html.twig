@@ -7,31 +7,31 @@
 {% endblock %}
 
 {% block body %}
-    <div style="display: flex">
-        <form action="{{ path('home.get_prices') }}" method="post" id="prices-form">
+    <div style="display: flex; justify-content: center; margin: 50px">
+        <form action="{{ path('home.get_prices') }}" method="post" id="prices-form" style="background: lightgrey; padding: 50px">
             <input type="hidden" name="_token" value="{{ csrf_token('delete-item') }}"/>
-            <div>
+            <div class="input-div">
                 <label for="symbol-input">{{ 'form.company_symbol'|trans }}</label>
                 <input id="symbol-input" name="symbol" required>
                 {% for symbolErrorMessage in app.flashes('symbol') %}
                     <p>{{ symbolErrorMessage }}</p>
                 {% endfor %}
             </div>
-            <div>
+            <div class="input-div">
                 <label for="email">{{ 'form.email'|trans }}</label>
                 <input id="email" name="email" type="email" required>
                 {% for emailErrorMessage in app.flashes('email') %}
                     <p>{{ emailErrorMessage }}</p>
                 {% endfor %}
             </div>
-            <div>
+            <div class="input-div">
                 <label for="start-date">{{ 'form.start_date'|trans }}</label>
                 <input id="start-date" name="startDate">
                 {% for startDateErrorMessage in app.flashes('startDate') %}
                     <p>{{ startDateErrorMessage }}</p>
                 {% endfor %}
             </div>
-            <div>
+            <div class="input-div">
                 <label for="end-date">{{ 'form.end_date'|trans }}</label>
                 <input id="end-date" name="endDate">
                 {% for endDateErrorMessage in app.flashes('endDate') %}
@@ -41,6 +41,16 @@
             <input type="submit" value="send">
         </form>
     </div>
+
+    <style>
+        .input-div {
+            margin-bottom: 15px;
+        }
+        label {
+            min-width: 150px;
+            display: inline-block;
+        }
+    </style>
 {% endblock %}
 
 {% block bottom_ajavascripts %}
@@ -48,3 +58,4 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="{{ asset('js/symbol_form.js') }}"></script>
 {% endblock %}
+
