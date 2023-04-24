@@ -5,6 +5,7 @@ RUN echo "@edge http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repo
     && echo /etc/apk/respositories \
     apk update && apk add --no-cache bash wget git build-base autoconf pcre-dev gcc g++ postgresql-dev freetype-dev \
     openssl-dev libjpeg-turbo-dev libpng-dev busybox-suid libzip-dev unzip icu-dev oniguruma-dev $PHPIZE_DEPS \
+    nodejs npm \
     && docker-php-ext-install pdo_pgsql bcmath gd sockets pcntl zip intl
 
 ENV COMPOSER_ALLOW_SUPERUSER=1 COMPOSER_HOME=/tmp
