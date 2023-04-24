@@ -18,12 +18,12 @@ class YahooFinanceService implements FinanceServiceInterface
     {
         $pricesRaw = $this->client->getHistoricalData($dto->symbol)->prices;
 
-        $startDateTimeStamp = $dto->startDate->setTime(00, 00, 00)->getTimestamp();
-        $endDateTimeStamp = $dto->endDate->setTime(23, 59, 59)->getTimestamp();
+        $startDateTimeStamp = (clone $dto->startDate)->setTime(0, 0, 0)->getTimestamp();
+        $endDateTimeStamp = (clone $dto->endDate)->setTime(23, 59, 59)->getTimestamp();
 
         $prices = [];
         foreach ($pricesRaw as $price) {
-            if ($startDateTimeStamp <= $price->date && $price->date <= $endDateTimeStamp) {
+            if (($startDateTimeStamp <= $price->date) && ($price->date <= $endDateTimeStamp)) {
                 $prices[] = new Price(
                     date: (new DateTime)->setTimestamp($price->date),
                     open: $price->open,
