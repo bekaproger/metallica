@@ -1,0 +1,6 @@
+form:
+  company_symbol: Company symbol
+  email: Email
+  start_date: Start date
+  end_date: End date
+yeah: YEAh

@@ -1,0 +1,11 @@
+company_prices:
+  symbol: 'Invalid symbol provided'
+  email: 'Invalid email provided'
+  start_date:
+    invalid: 'Invalid start date provided'
+    greater_than_end_date: 'Start date must be less or equal to end date'
+    greater_than_current_date: 'Start date must be less or equal to current date'
+  end_date:
+    invalid: 'Invalid end date provided'
+    smaller_than_end_date: 'End date must be greater or equal to end date'
+    greater_than_current_date: 'End date must be less or equal to current date'
