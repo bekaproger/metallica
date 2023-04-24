@@ -22,7 +22,7 @@ docker-stop:
 	docker-compose stop
 
 setup-env:
-	cp .env .env.production
+	cp .env .env.local
 
 composer-install:
 	docker-compose run --rm fpm composer install
